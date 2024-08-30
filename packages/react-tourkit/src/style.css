@@ -32,10 +32,9 @@ svg#tourkit-overlay {
 }
 
 svg#tourkit-overlay > path {
-    opacity: 0.2;
     transition: all 0.2s;
     pointer-events: auto;
-    fill: rgba(0, 0, 0);
+    fill: rgba(17, 24, 39, 0.3);
 }
 
 #tourkit-step {
