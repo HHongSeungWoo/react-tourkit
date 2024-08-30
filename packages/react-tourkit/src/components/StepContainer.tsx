@@ -6,12 +6,16 @@ export type StepAlign = "start" | "center" | "end";
 
 export default function StepContainer({
   side = "bottom",
+  sideOffset = 8,
   align = "center",
+  alignOffset = 0,
   target,
   children,
 }: PropsWithChildren<{
   side?: StepSide;
   align?: StepAlign;
+  sideOffset?: number;
+  alignOffset?: number;
   target?: HTMLElement | null;
 }>) {
   return (
@@ -19,7 +23,8 @@ export default function StepContainer({
       <Popover.Anchor virtualRef={{ current: target ?? null }} />
       <Popover.Portal>
         <Popover.Content
-          sideOffset={8}
+          sideOffset={sideOffset}
+          alignOffset={alignOffset}
           id="tourkit-step"
           side={side}
           align={align}

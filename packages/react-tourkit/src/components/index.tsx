@@ -9,7 +9,9 @@ export interface Step {
   target: string | HTMLElement;
 
   stepSide?: StepSide;
+  stepSideOffset?: number;
   stepAlign?: StepAlign;
+  stepAlignOffset?: number;
 }
 
 export interface StepComponentProps<T extends Step = Step> {
@@ -137,13 +139,17 @@ export function TourKit<T extends Step>({
   StepComponent,
   defaultStepSide,
   defaultStepAlign,
+  defaultStepSideOffset,
+  defaultStepAlignOffset,
   highlight = true,
 }: {
   highlight?: boolean;
   controller: Controller<T>;
   StepComponent: ComponentType<StepComponentProps<T>>;
   defaultStepSide?: StepSide;
+  defaultStepSideOffset?: number;
   defaultStepAlign?: StepAlign;
+  defaultStepAlignOffset?: number;
 }) {
   const [, rerender] = useState({});
 
@@ -169,6 +175,8 @@ export function TourKit<T extends Step>({
       <StepContainer
         side={step?.stepSide ?? defaultStepSide}
         align={step?.stepAlign ?? defaultStepAlign}
+        sideOffset={step?.stepSideOffset ?? defaultStepSideOffset}
+        alignOffset={step?.stepAlignOffset ?? defaultStepAlignOffset}
         target={controller.currentTarget}
       >
         <StepComponent controller={controller} />
