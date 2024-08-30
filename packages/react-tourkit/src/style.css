@@ -1,0 +1,44 @@
+.tourkit-body {
+    pointer-events: none;
+}
+
+.tourkit-target {
+    pointer-events: auto;
+}
+
+div#tourkit-overlay {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.2);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10000;
+    pointer-events: auto;
+    cursor: default;
+}
+
+svg#tourkit-overlay {
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+    stroke-linejoin: round;
+    stroke-miterlimit: 2;
+    z-index: 10000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+svg#tourkit-overlay > path {
+    opacity: 0.2;
+    transition: all 0.2s;
+    pointer-events: auto;
+    fill: rgba(0, 0, 0);
+}
+
+#tourkit-step {
+    z-index: 999999;
+    pointer-events: auto;
+}
