@@ -12,6 +12,9 @@ export interface Step {
   stepSideOffset?: number;
   stepAlign?: StepAlign;
   stepAlignOffset?: number;
+
+  highlightPadding?: number;
+  highlightRadius?: number;
 }
 
 export interface StepComponentProps<T extends Step = Step> {
@@ -142,6 +145,8 @@ export function TourKit<T extends Step>({
   defaultStepAlign,
   defaultStepSideOffset,
   defaultStepAlignOffset,
+  defaultHighlightPadding,
+  defaultHighlightRadius,
   highlight = true,
 }: {
   highlight?: boolean;
@@ -151,6 +156,8 @@ export function TourKit<T extends Step>({
   defaultStepSideOffset?: number;
   defaultStepAlign?: StepAlign;
   defaultStepAlignOffset?: number;
+  defaultHighlightPadding?: number;
+  defaultHighlightRadius?: number;
 }) {
   const [, rerender] = useState({});
 
@@ -183,7 +190,12 @@ export function TourKit<T extends Step>({
         <StepComponent controller={controller} />
       </StepContainer>
       <Portal>
-        <Overlay highlight={highlight} target={controller.currentTarget} />
+        <Overlay
+          highlight={highlight}
+          target={controller.currentTarget}
+          radius={step?.highlightRadius ?? defaultHighlightRadius}
+          padding={step?.highlightPadding ?? defaultHighlightPadding}
+        />
       </Portal>
     </>
   );

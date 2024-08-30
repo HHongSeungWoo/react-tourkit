@@ -4,9 +4,13 @@ import scrollparent from "scrollparent";
 export default function Overlay({
   target,
   highlight,
+  padding = 0,
+  radius = 6,
 }: {
   target?: HTMLElement | null;
   highlight: boolean;
+  radius?: number;
+  padding?: number;
 }) {
   const [path, setPath] = useState("");
 
@@ -33,24 +37,17 @@ export default function Overlay({
       const windowX = window.innerWidth;
       const windowY = window.innerHeight;
 
-      const stagePadding = 0;
-      const stageRadius = 6;
-
       const rect = target.getBoundingClientRect();
 
-      const stageWidth = rect.width + stagePadding * 2;
-      const stageHeight = rect.height + stagePadding * 2;
+      const stageWidth = rect.width + padding * 2;
+      const stageHeight = rect.height + padding * 2;
 
-      const limitedRadius = Math.min(
-        stageRadius,
-        stageWidth / 2,
-        stageHeight / 2,
-      );
+      const limitedRadius = Math.min(radius, stageWidth / 2, stageHeight / 2);
 
       const normalizedRadius = Math.floor(Math.max(limitedRadius, 0));
 
-      const highlightBoxX = rect.x - stagePadding + normalizedRadius;
-      const highlightBoxY = rect.y - stagePadding;
+      const highlightBoxX = rect.x - padding + normalizedRadius;
+      const highlightBoxY = rect.y - padding;
       const highlightBoxWidth = stageWidth - normalizedRadius * 2;
       const highlightBoxHeight = stageHeight - normalizedRadius * 2;
 
@@ -76,7 +73,7 @@ export default function Overlay({
         scrollParent.removeEventListener("scroll", callback, true);
       }
     };
-  }, [target]);
+  }, [target, padding, radius]);
 
   if (!target || !highlight) {
     return <div id="tourkit-overlay" />;
