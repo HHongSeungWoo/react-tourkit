@@ -73,6 +73,7 @@ export class Controller<T extends Step> {
         this.currentTarget.scrollIntoView({
           behavior: "smooth",
           block: "center",
+          inline: "center",
         });
         this.emit("ready", this.currentTarget);
       }

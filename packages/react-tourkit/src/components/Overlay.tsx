@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import scrollparent from "scrollparent";
 
 export default function Overlay({
   target,
@@ -59,14 +60,21 @@ export default function Overlay({
 
     window.addEventListener("resize", callback);
     document.addEventListener("scroll", callback, true);
-    target?.parentElement?.addEventListener("scroll", callback, true);
+
+    let scrollParent = null;
+    if (target) {
+      scrollParent = scrollparent(target);
+      scrollParent?.addEventListener("scroll", callback, true);
+    }
 
     callback();
 
     return () => {
       window.removeEventListener("resize", callback);
       document.removeEventListener("scroll", callback, true);
-      target?.parentElement?.removeEventListener("scroll", callback, true);
+      if (scrollParent) {
+        scrollParent.removeEventListener("scroll", callback, true);
+      }
     };
   }, [target]);
 
