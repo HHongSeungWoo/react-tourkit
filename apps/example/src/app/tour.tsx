@@ -29,6 +29,12 @@ function StepComponent({
 
 const STEPS: Array<Step & { content: string }> = [
   {
+    target: "#overflow-content",
+    content: "Overflow content",
+    scrollToTarget: false,
+    highlightHorizonOverflow: false,
+  },
+  {
     target: "div.font-mono",
     content: "step3",
   },
