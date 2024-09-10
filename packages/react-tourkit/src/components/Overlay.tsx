@@ -6,11 +6,13 @@ export default function Overlay({
   highlight,
   padding = 0,
   radius = 6,
+  highlightHorizonOverflow = false,
 }: {
   target?: HTMLElement | null;
   highlight: boolean;
   radius?: number;
   padding?: number;
+  highlightHorizonOverflow?: boolean;
 }) {
   const [path, setPath] = useState("");
 
@@ -37,7 +39,20 @@ export default function Overlay({
       const windowX = window.innerWidth;
       const windowY = window.innerHeight;
 
-      const rect = target.getBoundingClientRect();
+      let rect = target.getBoundingClientRect();
+      const parent = target.parentElement;
+      let isHorizonOverflow = false;
+      if (parent) {
+        isHorizonOverflow = parent.clientWidth < parent.scrollWidth;
+        if (isHorizonOverflow && highlightHorizonOverflow === false) {
+          rect = Object.assign(rect, {
+            width: parent.clientWidth,
+            height: target.clientHeight,
+            x: parent.getBoundingClientRect().x,
+            y: target.getBoundingClientRect().y,
+          });
+        }
+      }
 
       const stageWidth = rect.width + padding * 2;
       const stageHeight = rect.height + padding * 2;

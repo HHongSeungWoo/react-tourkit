@@ -17,6 +17,7 @@ export interface Step {
   highlightRadius?: number;
   scrollToTargetOptions?: ScrollIntoViewOptions;
   scrollToTarget?: boolean;
+  highlightHorizonOverflow?: boolean;
 }
 
 export interface StepComponentProps<T extends Step = Step> {
@@ -161,6 +162,7 @@ export function TourKit<T extends Step>({
   defaultHighlightPadding,
   defaultHighlightRadius,
   highlight = true,
+  defaultHighlightHorizonOverflow = true,
 }: {
   highlight?: boolean;
   controller: Controller<T>;
@@ -171,6 +173,7 @@ export function TourKit<T extends Step>({
   defaultStepAlignOffset?: number;
   defaultHighlightPadding?: number;
   defaultHighlightRadius?: number;
+  defaultHighlightHorizonOverflow?: boolean;
 }) {
   const [, rerender] = useState({});
 
@@ -208,6 +211,9 @@ export function TourKit<T extends Step>({
           target={controller.currentTarget}
           radius={step?.highlightRadius ?? defaultHighlightRadius}
           padding={step?.highlightPadding ?? defaultHighlightPadding}
+          highlightHorizonOverflow={
+            step?.highlightHorizonOverflow ?? defaultHighlightHorizonOverflow
+          }
         />
       </Portal>
     </>
