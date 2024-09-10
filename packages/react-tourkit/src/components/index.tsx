@@ -15,6 +15,7 @@ export interface Step {
 
   highlightPadding?: number;
   highlightRadius?: number;
+  scrollToTarget?: boolean;
 }
 
 export interface StepComponentProps<T extends Step = Step> {
@@ -36,8 +37,14 @@ const getElement = (element: string | HTMLElement): HTMLElement | null => {
 export class Controller<T extends Step> {
   currentTarget?: HTMLElement | null = undefined;
   index = 0;
+  steps: T[];
 
-  constructor(public steps: T[]) {}
+  constructor(steps: T[]) {
+    this.steps = steps.map((step) => {
+      // default option
+      return { ...step, scrollToTarget: step.scrollToTarget ?? true };
+    });
+  }
 
   private listeners: ((...args: unknown[]) => Promise<void> | void)[] = [];
   subscribe = (listener: (...args: unknown[]) => Promise<void> | void) => {
@@ -68,16 +75,22 @@ export class Controller<T extends Step> {
     }, 100);
   }
 
+  private scrollToTarget(target: HTMLElement) {
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    });
+  }
+
   private setTarget(target: HTMLElement | null) {
     if (this.currentTarget !== target) {
       this.currentTarget = target;
       this.emit("init");
       if (this.currentTarget) {
-        this.currentTarget.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-          inline: "center",
-        });
+        if (this.getStep().scrollToTarget) {
+          this.scrollToTarget(this.currentTarget);
+        }
         this.emit("ready", this.currentTarget);
       }
     }
@@ -200,3 +213,4 @@ export function TourKit<T extends Step>({
     </>
   );
 }
+
