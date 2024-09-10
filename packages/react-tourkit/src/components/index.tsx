@@ -37,14 +37,8 @@ const getElement = (element: string | HTMLElement): HTMLElement | null => {
 export class Controller<T extends Step> {
   currentTarget?: HTMLElement | null = undefined;
   index = 0;
-  steps: T[];
 
-  constructor(steps: T[]) {
-    this.steps = steps.map((step) => {
-      // default option
-      return { ...step, scrollToTarget: step.scrollToTarget ?? true };
-    });
-  }
+  constructor(public steps: T[]) {}
 
   private listeners: ((...args: unknown[]) => Promise<void> | void)[] = [];
   subscribe = (listener: (...args: unknown[]) => Promise<void> | void) => {
@@ -88,7 +82,8 @@ export class Controller<T extends Step> {
       this.currentTarget = target;
       this.emit("init");
       if (this.currentTarget) {
-        if (this.getStep().scrollToTarget) {
+        const { scrollToTarget } = this.getStep() || true;
+        if (scrollToTarget) {
           this.scrollToTarget(this.currentTarget);
         }
         this.emit("ready", this.currentTarget);
