@@ -70,6 +70,10 @@ export class Controller<T extends Step> {
   }
 
   private scrollToTarget(target: HTMLElement) {
+    const { scrollToTarget } = this.getStep() ?? true;
+    if (!scrollToTarget) {
+      return;
+    }
     target.scrollIntoView({
       behavior: "smooth",
       block: "center",
@@ -82,10 +86,7 @@ export class Controller<T extends Step> {
       this.currentTarget = target;
       this.emit("init");
       if (this.currentTarget) {
-        const { scrollToTarget } = this.getStep() || true;
-        if (scrollToTarget) {
-          this.scrollToTarget(this.currentTarget);
-        }
+        this.scrollToTarget(this.currentTarget);
         this.emit("ready", this.currentTarget);
       }
     }
