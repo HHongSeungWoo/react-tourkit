@@ -11,29 +11,44 @@ export default function StepContainer({
   alignOffset = 0,
   target,
   children,
-  highlightOverflow = false,
 }: PropsWithChildren<{
   side?: StepSide;
   align?: StepAlign;
   sideOffset?: number;
   alignOffset?: number;
   target?: HTMLElement | null;
-  highlightOverflow?: boolean;
 }>) {
+  function findScrollableParent(element: HTMLElement): HTMLElement | null {
+    if (!element) {
+      return null;
+    }
+    let parent = element.parentElement;
+
+    while (parent && parent !== document.body) {
+      const hasVerticalScrollbar = parent.scrollHeight > parent.clientHeight;
+      const hasHorizontalScrollbar = parent.scrollWidth > parent.clientWidth;
+
+      if (hasVerticalScrollbar || hasHorizontalScrollbar) {
+        return parent;
+      }
+
+      parent = parent.parentElement;
+    }
+
+    return null;
+  }
+
   return (
     <Popover.Root open={!!target}>
       <Popover.Anchor
         virtualRef={{
-          current:
-            (() => {
-              if (!highlightOverflow) {
-                const parent = target?.parentElement;
-                if (parent) {
-                  return parent;
-                }
-              }
-              return target;
-            })() ?? null,
+          current: (() => {
+            const parent = findScrollableParent(target!);
+            if (parent) {
+              return parent;
+            }
+            return target ?? null;
+          })(),
         }}
       />
       <Popover.Portal>

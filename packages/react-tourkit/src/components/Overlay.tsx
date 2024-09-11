@@ -6,13 +6,11 @@ export default function Overlay({
   highlight,
   padding = 0,
   radius = 6,
-  highlightOverflow = false,
 }: {
   target?: HTMLElement | null;
   highlight: boolean;
   radius?: number;
   padding?: number;
-  highlightOverflow?: boolean;
 }) {
   const [path, setPath] = useState("");
 
@@ -30,6 +28,23 @@ export default function Overlay({
     };
   }, [target]);
 
+  function findScrollableParent(element: HTMLElement): HTMLElement | null {
+    let parent = element.parentElement;
+
+    while (parent && parent !== document.body) {
+      const hasVerticalScrollbar = parent.scrollHeight > parent.clientHeight;
+      const hasHorizontalScrollbar = parent.scrollWidth > parent.clientWidth;
+
+      if (hasVerticalScrollbar || hasHorizontalScrollbar) {
+        return parent;
+      }
+
+      parent = parent.parentElement;
+    }
+
+    return null;
+  }
+
   useEffect(() => {
     const callback = () => {
       if (!target) {
@@ -40,24 +55,22 @@ export default function Overlay({
       const windowY = window.innerHeight;
 
       let rect = target.getBoundingClientRect();
-      const parent = target.parentElement;
-      if (parent) {
-        const isHorizontalOverflow = parent.clientWidth < parent.scrollWidth;
-        const isVerticalOverflow = parent.clientHeight < parent.scrollHeight;
-        const isOverflow = isHorizontalOverflow || isVerticalOverflow;
-        if (isOverflow && highlightOverflow === false) {
-          const width = isHorizontalOverflow
-            ? parent.clientWidth
-            : target.clientWidth;
-          const height = isVerticalOverflow
-            ? parent.clientHeight
-            : target.clientHeight;
+      const parentElement = findScrollableParent(target);
+      if (parentElement) {
+        const parentRect = parentElement.getBoundingClientRect();
+        const scrollWidth =
+          parentElement.offsetWidth - parentElement.clientWidth;
+        const scrollHeight =
+          parentElement.offsetHeight - parentElement.clientHeight;
+        const width = parentRect.width - scrollWidth;
+        const height = parentRect.height - scrollHeight;
 
-          rect = Object.assign(rect, {
-            width: width,
-            height: height,
-          });
-        }
+        rect = Object.assign(rect, {
+          x: parentRect.x,
+          y: parentRect.y,
+          width: width,
+          height: height,
+        });
       }
 
       const stageWidth = rect.width + padding * 2;

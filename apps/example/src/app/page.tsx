@@ -18,13 +18,27 @@ export default function Home() {
       {s && <div id="timeout1">asdfasdf</div>}
       <main className="bg-blue-600 flex min-h-screen flex-col items-center justify-between p-24">
         <section className="flex flex-col gap-4">
-          <div className="border rounded-md bg-red-50  overflow-x-scroll max-w-[400px] max-h-[100px]">
-            <div className="min-w-[2000px] min-h-[50px]" id="overflow-content">
+          <div>
+            <div
+              className="min-w-[400px] min-h-[50px] bg-white"
+              id="normal-content"
+            >
+              NO OVERFLOW_SCREEN
+            </div>
+          </div>
+          <div
+            id="container"
+            className="border rounded-md bg-red-50  overflow-x-scroll max-w-[400px] max-h-[100px]"
+          >
+            <div className="min-w-[20020px] min-h-[50px]" id="overflow-content">
               WIDTH OVERFLOW_SCREEN
             </div>
           </div>
 
-          <div className="border rounded-md bg-red-50 overflow-auto max-h-[100px]">
+          <div
+            className="border rounded-md bg-red-50 overflow-auto max-h-[100px]"
+            id="container2"
+          >
             <div className="min-w-[300px] min-h-[350px]" id="overflow-content2">
               HEIGHT OVERFLOW_SCREEN
             </div>
