@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import scrollparent from "scrollparent";
-import { getOverflowContainerParent } from "../utils/helpers";
+import { findFirstOverflowingAncestor } from "../utils/helpers";
 
 export default function Overlay({
   target,
@@ -35,27 +35,36 @@ export default function Overlay({
         return;
       }
 
+      const calculateRect = (element: HTMLElement) => {
+        const rect = element.getBoundingClientRect();
+        const parentElement = findFirstOverflowingAncestor(element);
+        if (parentElement) {
+          const {
+            x,
+            y,
+            width: parentWidth,
+            height: parentHeight,
+          } = parentElement.getBoundingClientRect();
+          const { offsetWidth, offsetHeight, clientWidth, clientHeight } =
+            parentElement;
+
+          const scrollWidth = offsetWidth - clientWidth;
+          const scrollHeight = offsetHeight - clientHeight;
+
+          return Object.assign(rect, {
+            x,
+            y,
+            width: parentWidth - scrollWidth,
+            height: parentHeight - scrollHeight,
+          });
+        }
+        return rect;
+      };
+
       const windowX = window.innerWidth;
       const windowY = window.innerHeight;
 
-      let rect = target.getBoundingClientRect();
-      const parentElement = getOverflowContainerParent(target);
-      if (parentElement) {
-        const parentRect = parentElement.getBoundingClientRect();
-        const scrollWidth =
-          parentElement.offsetWidth - parentElement.clientWidth;
-        const scrollHeight =
-          parentElement.offsetHeight - parentElement.clientHeight;
-        const width = parentRect.width - scrollWidth;
-        const height = parentRect.height - scrollHeight;
-
-        rect = Object.assign(rect, {
-          x: parentRect.x,
-          y: parentRect.y,
-          width: width,
-          height: height,
-        });
-      }
+      const rect = calculateRect(target);
 
       const stageWidth = rect.width + padding * 2;
       const stageHeight = rect.height + padding * 2;

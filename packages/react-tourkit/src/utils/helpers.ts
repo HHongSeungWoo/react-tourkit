@@ -1,12 +1,9 @@
-function isScrolling(element: HTMLElement) {
-  const overflow = getComputedStyle(element, null).getPropertyValue("overflow");
-  const scrollable =
-    overflow.indexOf("auto") > -1 || overflow.indexOf("scroll") > -1;
-
-  return scrollable;
+function isScrollable(element: HTMLElement): boolean {
+  const overflow = getComputedStyle(element).overflow;
+  return ["auto", "scroll"].some((value) => overflow.includes(value));
 }
 
-function getScrollableParent(
+function findScrollableAncestor(
   element: HTMLElement | null | undefined
 ): HTMLElement | null {
   if (!element) {
@@ -16,7 +13,7 @@ function getScrollableParent(
   let parent = element.parentElement;
 
   while (parent && parent !== document.body) {
-    if (isScrolling(parent)) {
+    if (isScrollable(parent)) {
       return parent;
     }
     parent = parent.parentElement;
@@ -24,7 +21,9 @@ function getScrollableParent(
   return null;
 }
 
-function getOverflowContainerParent(element: HTMLElement | null | undefined) {
+function findFirstOverflowingAncestor(
+  element: HTMLElement | null | undefined
+): HTMLElement | null {
   if (!element) {
     return null;
   }
@@ -34,13 +33,14 @@ function getOverflowContainerParent(element: HTMLElement | null | undefined) {
     return null;
   }
 
-  const isBiggerThanParent =
+  const isElementBiggerThanParent =
     element.offsetWidth > parent.offsetWidth ||
     element.offsetHeight > parent.offsetHeight;
-  if (!isBiggerThanParent) {
+
+  if (!isElementBiggerThanParent) {
     return element;
   }
-  return getScrollableParent(element);
+  return findScrollableAncestor(element);
 }
 
-export { getScrollableParent, getOverflowContainerParent };
+export { findScrollableAncestor, findFirstOverflowingAncestor };

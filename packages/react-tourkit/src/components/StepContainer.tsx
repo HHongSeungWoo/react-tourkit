@@ -1,6 +1,6 @@
 import * as Popover from "@radix-ui/react-popover";
 import type { PropsWithChildren } from "react";
-import { getOverflowContainerParent } from "../utils/helpers";
+import { findFirstOverflowingAncestor } from "../utils/helpers";
 
 export type StepSide = "top" | "bottom" | "left" | "right";
 export type StepAlign = "start" | "center" | "end";
@@ -24,7 +24,7 @@ export default function StepContainer({
       <Popover.Anchor
         virtualRef={{
           current: (() => {
-            const parent = getOverflowContainerParent(target);
+            const parent = findFirstOverflowingAncestor(target);
             if (parent) {
               return parent;
             }
