@@ -15,7 +15,7 @@ export interface Step {
 
   highlightPadding?: number;
   highlightRadius?: number;
-  scrollIntoViewOptions?: ScrollIntoViewOptions;
+  scrollToTargetOptions?: ScrollIntoViewOptions;
   scrollToTarget?: boolean;
 }
 
@@ -73,7 +73,7 @@ export class Controller<T extends Step> {
   private scrollToTarget(target: HTMLElement) {
     const {
       scrollToTarget = true,
-      scrollIntoViewOptions = {
+      scrollToTargetOptions = {
         behavior: "smooth",
         block: "center",
         inline: "center",
@@ -82,7 +82,7 @@ export class Controller<T extends Step> {
     if (!scrollToTarget) {
       return;
     }
-    target.scrollIntoView(scrollIntoViewOptions);
+    target.scrollIntoView(scrollToTargetOptions);
   }
 
   private setTarget(target: HTMLElement | null) {

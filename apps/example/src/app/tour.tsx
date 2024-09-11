@@ -37,7 +37,7 @@ const STEPS: Array<Step & { content: string }> = [
   {
     target: "#scroll9",
     content: "step1",
-    scrollIntoViewOptions: {
+    scrollToTargetOptions: {
       behavior: "smooth",
       block: "center",
       inline: "center",
