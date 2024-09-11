@@ -27,11 +27,22 @@ function StepComponent({
   );
 }
 
-const STEPS = [
-  { target: "div.font-mono", content: "step3" },
+const STEPS: Array<Step & { content: string }> = [
+  {
+    target: "div.font-mono",
+    content: "step3",
+  },
   { target: "#page1", content: "step1" },
   { target: "#page2", content: "step1" },
-  { target: "#scroll9", content: "step1" },
+  {
+    target: "#scroll9",
+    content: "step1",
+    scrollIntoViewOptions: {
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    },
+  },
   { target: "#timeout1", content: "step2" },
   { target: "#test122", content: "step4" },
   { target: "#test1", content: "step5" },
