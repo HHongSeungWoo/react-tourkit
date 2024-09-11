@@ -1,5 +1,6 @@
 import * as Popover from "@radix-ui/react-popover";
 import type { PropsWithChildren } from "react";
+import { getOverflowContainerParent } from "../utils/helpers";
 
 export type StepSide = "top" | "bottom" | "left" | "right";
 export type StepAlign = "start" | "center" | "end";
@@ -18,32 +19,12 @@ export default function StepContainer({
   alignOffset?: number;
   target?: HTMLElement | null;
 }>) {
-  function findScrollableParent(element: HTMLElement): HTMLElement | null {
-    if (!element) {
-      return null;
-    }
-    let parent = element.parentElement;
-
-    while (parent && parent !== document.body) {
-      const hasVerticalScrollbar = parent.scrollHeight > parent.clientHeight;
-      const hasHorizontalScrollbar = parent.scrollWidth > parent.clientWidth;
-
-      if (hasVerticalScrollbar || hasHorizontalScrollbar) {
-        return parent;
-      }
-
-      parent = parent.parentElement;
-    }
-
-    return null;
-  }
-
   return (
     <Popover.Root open={!!target}>
       <Popover.Anchor
         virtualRef={{
           current: (() => {
-            const parent = findScrollableParent(target!);
+            const parent = getOverflowContainerParent(target);
             if (parent) {
               return parent;
             }

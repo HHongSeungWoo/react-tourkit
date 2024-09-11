@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import scrollparent from "scrollparent";
+import { getOverflowContainerParent } from "../utils/helpers";
 
 export default function Overlay({
   target,
@@ -28,23 +29,6 @@ export default function Overlay({
     };
   }, [target]);
 
-  function findScrollableParent(element: HTMLElement): HTMLElement | null {
-    let parent = element.parentElement;
-
-    while (parent && parent !== document.body) {
-      const hasVerticalScrollbar = parent.scrollHeight > parent.clientHeight;
-      const hasHorizontalScrollbar = parent.scrollWidth > parent.clientWidth;
-
-      if (hasVerticalScrollbar || hasHorizontalScrollbar) {
-        return parent;
-      }
-
-      parent = parent.parentElement;
-    }
-
-    return null;
-  }
-
   useEffect(() => {
     const callback = () => {
       if (!target) {
@@ -55,7 +39,7 @@ export default function Overlay({
       const windowY = window.innerHeight;
 
       let rect = target.getBoundingClientRect();
-      const parentElement = findScrollableParent(target);
+      const parentElement = getOverflowContainerParent(target);
       if (parentElement) {
         const parentRect = parentElement.getBoundingClientRect();
         const scrollWidth =

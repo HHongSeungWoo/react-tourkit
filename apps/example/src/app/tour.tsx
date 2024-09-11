@@ -29,15 +29,15 @@ function StepComponent({
 
 const STEPS: Array<Step & { content: string }> = [
   {
-    target: "#normal-content",
-    content: "NOMAL OVERFLOW_SCREEN",
-    scrollToTarget: false,
-  },
-  {
     target: "#overflow-content",
     content: "WIDTH OVERFLOW_SCREEN",
     scrollToTarget: false,
     stepSide: "top",
+  },
+  {
+    target: "#normal-content",
+    content: "NOMAL OVERFLOW_SCREEN",
+    scrollToTarget: false,
   },
   {
     target: "#overflow-content2",
