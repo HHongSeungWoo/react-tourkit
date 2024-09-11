@@ -17,11 +17,34 @@ export default function Home() {
     <Tour>
       {s && <div id="timeout1">asdfasdf</div>}
       <main className="bg-blue-600 flex min-h-screen flex-col items-center justify-between p-24">
-        <div className="border rounded-md bg-red-50 p-4 overflow-x-scroll w-full">
-          <div className="min-w-[2000px]" id="overflow-content">
-            OVERFLOW_SCREEN
+        <section className="flex flex-col gap-4">
+          <div className="border rounded-md bg-red-50  overflow-x-scroll max-w-[400px] max-h-[100px]">
+            <div className="min-w-[2000px] min-h-[50px]" id="overflow-content">
+              WIDTH OVERFLOW_SCREEN
+            </div>
           </div>
-        </div>
+
+          <div className="border rounded-md bg-red-50 overflow-auto max-h-[100px]">
+            <div className="min-w-[300px] min-h-[350px]" id="overflow-content2">
+              HEIGHT OVERFLOW_SCREEN
+            </div>
+          </div>
+
+          <div className="border rounded-md bg-red-50 overflow-auto max-w-[400px] max-h-[100px]">
+            <div
+              className="min-w-[2000px] min-h-[550px]"
+              id="overflow-content3"
+            >
+              WIDTH + HEIGHT OVERFLOW_SCREEN
+            </div>
+          </div>
+
+          <div className="border rounded-md bg-red-50  w-full ">
+            <div className="w-fit h-fit" id="overflow-content4">
+              NONE OVERFLOW_SCREEN
+            </div>
+          </div>
+        </section>
         <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
           <Link id="page1" href={"/page1"}>
             page1
@@ -66,4 +89,3 @@ export default function Home() {
     </Tour>
   );
 }
-

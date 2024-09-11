@@ -30,10 +30,31 @@ function StepComponent({
 const STEPS: Array<Step & { content: string }> = [
   {
     target: "#overflow-content",
-    content: "Overflow content",
+    content: "WIDTH OVERFLOW_SCREEN",
     scrollToTarget: false,
-    highlightHorizonOverflow: false,
+    highlightOverflow: false,
   },
+  {
+    target: "#overflow-content2",
+    content: "HEIGHT OVERFLOW_SCREEN",
+    scrollToTarget: false,
+    highlightOverflow: false,
+  },
+
+  {
+    target: "#overflow-content3",
+    content: "WIDTH + HEIGHT OVERFLOW_SCREEN",
+    scrollToTarget: false,
+    highlightOverflow: false,
+  },
+
+  {
+    target: "#overflow-content4",
+    content: "NONE OVERFLOW_SCREEN",
+    scrollToTarget: false,
+    highlightOverflow: false,
+  },
+
   {
     target: "div.font-mono",
     content: "step3",
