@@ -70,7 +70,7 @@ export class Controller<T extends Step> {
   }
 
   private scrollToTarget(target: HTMLElement) {
-    const { scrollToTarget } = this.getStep() ?? true;
+    const { scrollToTarget = true } = this.getStep();
     if (!scrollToTarget) {
       return;
     }
@@ -209,4 +209,3 @@ export function TourKit<T extends Step>({
     </>
   );
 }
-
