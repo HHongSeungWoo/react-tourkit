@@ -11,16 +11,31 @@ export default function StepContainer({
   alignOffset = 0,
   target,
   children,
+  highlightOverflow = false,
 }: PropsWithChildren<{
   side?: StepSide;
   align?: StepAlign;
   sideOffset?: number;
   alignOffset?: number;
   target?: HTMLElement | null;
+  highlightOverflow?: boolean;
 }>) {
   return (
     <Popover.Root open={!!target}>
-      <Popover.Anchor virtualRef={{ current: target ?? null }} />
+      <Popover.Anchor
+        virtualRef={{
+          current:
+            (() => {
+              if (!highlightOverflow) {
+                const parent = target?.parentElement;
+                if (parent) {
+                  return parent;
+                }
+              }
+              return target;
+            })() ?? null,
+        }}
+      />
       <Popover.Portal>
         <Popover.Content
           sideOffset={sideOffset}
