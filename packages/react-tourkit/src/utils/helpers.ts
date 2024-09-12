@@ -42,4 +42,30 @@ function findFirstOverflowingAncestor(
   return findScrollableAncestor(element);
 }
 
-export { findScrollableAncestor, findFirstOverflowingAncestor };
+function calculateRect(element: HTMLElement): DOMRect {
+  const rect = element.getBoundingClientRect();
+  const parentElement = findFirstOverflowingAncestor(element);
+  if (parentElement) {
+    const {
+      x,
+      y,
+      width: parentWidth,
+      height: parentHeight,
+    } = parentElement.getBoundingClientRect();
+    const { offsetWidth, offsetHeight, clientWidth, clientHeight } =
+      parentElement;
+
+    const scrollWidth = offsetWidth - clientWidth;
+    const scrollHeight = offsetHeight - clientHeight;
+
+    return Object.assign(rect, {
+      x,
+      y,
+      width: parentWidth - scrollWidth,
+      height: parentHeight - scrollHeight,
+    });
+  }
+  return rect;
+}
+
+export { findScrollableAncestor, findFirstOverflowingAncestor, calculateRect };

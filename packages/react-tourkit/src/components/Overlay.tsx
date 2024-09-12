@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  findFirstOverflowingAncestor,
-  findScrollableAncestor,
-} from "../utils/helpers";
+import { calculateRect, findScrollableAncestor } from "../utils/helpers";
 
 export default function Overlay({
   target,
@@ -16,32 +13,6 @@ export default function Overlay({
   padding?: number;
 }) {
   const [path, setPath] = useState("");
-
-  const calculateRect = (element: HTMLElement) => {
-    const rect = element.getBoundingClientRect();
-    const parentElement = findFirstOverflowingAncestor(element);
-    if (parentElement) {
-      const {
-        x,
-        y,
-        width: parentWidth,
-        height: parentHeight,
-      } = parentElement.getBoundingClientRect();
-      const { offsetWidth, offsetHeight, clientWidth, clientHeight } =
-        parentElement;
-
-      const scrollWidth = offsetWidth - clientWidth;
-      const scrollHeight = offsetHeight - clientHeight;
-
-      return Object.assign(rect, {
-        x,
-        y,
-        width: parentWidth - scrollWidth,
-        height: parentHeight - scrollHeight,
-      });
-    }
-    return rect;
-  };
 
   useEffect(() => {
     document.body.classList.add("tourkit-body");
