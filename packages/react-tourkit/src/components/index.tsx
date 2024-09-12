@@ -66,7 +66,8 @@ export class Controller<T extends Step> {
         return;
       }
 
-      this.setTarget(step ? getElement(step.target) : null);
+      const target = step ? getElement(step.target) : null;
+      this.setTarget(target);
     }, 100);
   }
 
