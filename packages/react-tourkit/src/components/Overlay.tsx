@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import scrollparent from "scrollparent";
-import { findFirstOverflowingAncestor } from "../utils/helpers";
+import {
+  findFirstOverflowingAncestor,
+  findScrollableAncestor,
+} from "../utils/helpers";
 
 export default function Overlay({
   target,
@@ -87,7 +89,7 @@ export default function Overlay({
 
     let scrollParent = null;
     if (target) {
-      scrollParent = scrollparent(target);
+      scrollParent = findScrollableAncestor(target);
       scrollParent?.addEventListener("scroll", callback, true);
     }
 
