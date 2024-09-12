@@ -15,6 +15,32 @@ export default function Overlay({
 }) {
   const [path, setPath] = useState("");
 
+  const calculateRect = (element: HTMLElement) => {
+    const rect = element.getBoundingClientRect();
+    const parentElement = findFirstOverflowingAncestor(element);
+    if (parentElement) {
+      const {
+        x,
+        y,
+        width: parentWidth,
+        height: parentHeight,
+      } = parentElement.getBoundingClientRect();
+      const { offsetWidth, offsetHeight, clientWidth, clientHeight } =
+        parentElement;
+
+      const scrollWidth = offsetWidth - clientWidth;
+      const scrollHeight = offsetHeight - clientHeight;
+
+      return Object.assign(rect, {
+        x,
+        y,
+        width: parentWidth - scrollWidth,
+        height: parentHeight - scrollHeight,
+      });
+    }
+    return rect;
+  };
+
   useEffect(() => {
     document.body.classList.add("tourkit-body");
     if (target) {
@@ -34,32 +60,6 @@ export default function Overlay({
       if (!target) {
         return;
       }
-
-      const calculateRect = (element: HTMLElement) => {
-        const rect = element.getBoundingClientRect();
-        const parentElement = findFirstOverflowingAncestor(element);
-        if (parentElement) {
-          const {
-            x,
-            y,
-            width: parentWidth,
-            height: parentHeight,
-          } = parentElement.getBoundingClientRect();
-          const { offsetWidth, offsetHeight, clientWidth, clientHeight } =
-            parentElement;
-
-          const scrollWidth = offsetWidth - clientWidth;
-          const scrollHeight = offsetHeight - clientHeight;
-
-          return Object.assign(rect, {
-            x,
-            y,
-            width: parentWidth - scrollWidth,
-            height: parentHeight - scrollHeight,
-          });
-        }
-        return rect;
-      };
 
       const windowX = window.innerWidth;
       const windowY = window.innerHeight;
