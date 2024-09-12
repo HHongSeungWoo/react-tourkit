@@ -36,9 +36,8 @@ function findFirstOverflowingAncestor(
   const isElementBiggerThanParent =
     element.offsetWidth > parent.offsetWidth ||
     element.offsetHeight > parent.offsetHeight;
-
   if (!isElementBiggerThanParent) {
-    return element;
+    return null;
   }
   return findScrollableAncestor(element);
 }
