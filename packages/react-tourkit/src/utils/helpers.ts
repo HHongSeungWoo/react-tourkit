@@ -42,7 +42,7 @@ function findFirstOverflowingAncestor(
   return findScrollableAncestor(element);
 }
 
-function calculateRect(element: HTMLElement): DOMRect {
+function calculateHighlightRect(element: HTMLElement): DOMRect {
   const rect = element.getBoundingClientRect();
   const parentElement = findFirstOverflowingAncestor(element);
   if (parentElement) {
@@ -68,4 +68,8 @@ function calculateRect(element: HTMLElement): DOMRect {
   return rect;
 }
 
-export { findScrollableAncestor, findFirstOverflowingAncestor, calculateRect };
+export {
+  findScrollableAncestor,
+  findFirstOverflowingAncestor,
+  calculateHighlightRect,
+};

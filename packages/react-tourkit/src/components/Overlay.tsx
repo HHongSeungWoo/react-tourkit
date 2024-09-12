@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { calculateRect, findScrollableAncestor } from "../utils/helpers";
+import {
+  calculateHighlightRect,
+  findScrollableAncestor,
+} from "../utils/helpers";
 
 export default function Overlay({
   target,
@@ -37,7 +40,7 @@ export default function Overlay({
       const windowX = window.innerWidth;
       const windowY = window.innerHeight;
 
-      const rect = calculateRect(target);
+      const rect = calculateHighlightRect(target);
 
       const stageWidth = rect.width + padding * 2;
       const stageHeight = rect.height + padding * 2;
